@@ -6,7 +6,7 @@ EPS = 0.01
 
 #  Returns (y', u')
 def func(x, y, u):
-    return (-0.15 * y - 2 * u), y
+    return np.array((-0.15 * y - 2 * u, y))
 
 def RK3(x, y, u, step):
     k1_y, k1_u = func(x, y, u)
@@ -19,7 +19,7 @@ def RK3(x, y, u, step):
     y_next = y + step * ((1 / 4) * k1_y + (3 / 4) * k3_y)
     u_next = u + step * ((1 / 4) * k1_u + (3 / 4) * k3_u)
     
-    return x_next, y_next, u_next
+    return np.array(x_next, y_next, u_next)
 
 def step_control(x, y, u, step):
     whole_step = RK3(x, y, u, step)

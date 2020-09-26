@@ -1,3 +1,6 @@
+import numpy as np
+from matplotlib import pyplot as plt
+
 STEP = 0.01
 EPS = 0.01
 
@@ -23,4 +26,8 @@ def step_control(x, y, u, step):
     half_step1 = RK3(x, y, u, step/2)
     half_step2 = RK3(*half_step1, step/2)
     
-    
+def main():
+    pass
+
+if __name__ == "__main__":
+    main()

@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import pylab
 from math import sqrt
 
 from numpy.matrixlib.defmatrix import matrix
@@ -16,6 +17,9 @@ from numpy.matrixlib.defmatrix import matrix
 # 
 #* Method: Runge-Kutta 3th order
 
+K = 3
+C = 0.15
+
 
 # # Return 1 x 2 matrix (y_vec must be shaped to 1 x 2)
 # def system(matrix: np.matrix, y_vec: np.array) -> np.matrix:
@@ -23,7 +27,7 @@ from numpy.matrixlib.defmatrix import matrix
 
 #  Returns (y', u')
 def func(x, y, u) -> np.array:
-    return np.array([-0.15 * y - 2 * u, y])
+    return np.array([-C * y - K * u, y])
 
 # def RK3(matrix: np.matrix, x: float, y_vec: np.array, step: float):
 #     k1 = system(matrix, y_vec)
@@ -62,14 +66,14 @@ def main() -> None:
     
     #? Initial conditions:
     x0 = 0
-    y0 = 2
-    u0 = 1
+    y0 = 0
+    u0 = 10
     
-    xmax = 10
+    xmax = 50
     
     #! User defined constants
-    step = 0.01
-    eps = 0.01
+    step = 1
+    eps = 0.0001
     
     x, y, u = x0, y0, u0
     xs = np.array([])
@@ -89,7 +93,7 @@ def main() -> None:
             
             if error > eps:
                 step /= 2.
-            elif error < eps / (2 ^ (3 + 1)):
+            elif error < eps / (2 ** (3 + 1)):
                 step *= 2.
                 break
             else:
@@ -104,10 +108,18 @@ def main() -> None:
         
         if x > xmax:
             break
-    
-    plt.plot(xs, ys)
-    plt.show()
-        
+
+
+    pylab.figure(1)
+    pylab.plot(xs, us, label = "u(x)")
+    pylab.plot(xs, ys, label = "y(x)")
+    pylab.legend()
+
+    pylab.figure(2)
+    pylab.plot(ys, us, label = "u(y)")
+    pylab.legend()
+
+    pylab.show()
 
 if __name__ == "__main__":
     main()

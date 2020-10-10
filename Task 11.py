@@ -1,6 +1,6 @@
 from math import sqrt
 import numpy as np
-import pylab
+from matplotlib import pyplot as plt
 
 
 #  <----HOW NOT TO FORGET THE SYSTEM OF ODE---->
@@ -90,16 +90,23 @@ def main() -> None:
             break
 
 
-    pylab.figure(1)
-    pylab.plot(xs, us, label = "u(x)")
-    pylab.plot(xs, ys, label = "y(x)")
-    pylab.legend()
+    fig, axs = plt.subplots(2, 1, figsize=(8, 8))
+    plt.subplots_adjust(hspace=0.3)
+    fig.canvas.set_window_title('Task 11')
 
-    pylab.figure(2)
-    pylab.plot(ys, us, label = "u(y)")
-    pylab.legend()
+    axs[0].plot(xs, ys, label = "y(x)")
+    axs[0].plot(xs, us, label = "u(x)")
+    axs[0].legend()
+    axs[0].set_xlabel("x")
+    axs[0].set_ylabel("u(x)/y(x)")
 
-    pylab.show()
+    axs[1].plot(ys, us, label = "u(y)")
+    axs[1].legend()
+    axs[1].set_xlabel("y")
+    axs[1].set_ylabel("u(y)")
+
+    plt.show()
+
 
 if __name__ == "__main__":
     main()

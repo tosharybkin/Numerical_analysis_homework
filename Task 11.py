@@ -43,16 +43,20 @@ def RK3(x, y, u, step) -> np.array:
     
 def main() -> None:
     
+    global K, C
+    
     #? Initial conditions:
     x0 = 0
     y0 = 0
     u0 = 10
-    
     xmax = 50
+    max_iters = 10000
     
     #! User defined constants
     step = 1
     eps = 0.0001
+    K = 3
+    C = 0.15
     
     x, y, u = x0, y0, u0
     xs = np.array([])
@@ -63,6 +67,8 @@ def main() -> None:
     
     while True:
         while True:
+            iter_counter += 1
+            
             whole_step = RK3(x, y, u, step)
             half_step1 = RK3(x, y, u, step / 2)
             half_step2 = RK3(*half_step1, step / 2)
@@ -70,7 +76,7 @@ def main() -> None:
             error = sqrt((whole_step[1] - half_step2[1]) ** 2
                          + (whole_step[2] - half_step2[2]) ** 2)
             
-            if error > eps:
+            if error > eps and iter_counter <= max_iters + 1:
                 step /= 2.
             elif error < eps / (2 ** (3 + 1)):
                 step *= 2.
@@ -82,8 +88,6 @@ def main() -> None:
         xs = np.append(xs, [x])
         ys = np.append(ys, [y])
         us = np.append(us, [u])
-        
-        iter_counter += 1
         
         if x > xmax:
             break

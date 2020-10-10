@@ -21,24 +21,10 @@ K = 3
 C = 0.15
 
 
-# # Return 1 x 2 matrix (y_vec must be shaped to 1 x 2)
-# def system(matrix: np.matrix, y_vec: np.array) -> np.matrix:
-#     return y_vec.dot(matrix)
-
 #  Returns (y', u')
 def func(x, y, u) -> np.array:
     return np.array([-C * y - K * u, y])
 
-# def RK3(matrix: np.matrix, x: float, y_vec: np.array, step: float):
-#     k1 = system(matrix, y_vec)
-#     k2 = system(matrix, y_vec + (k1 * step / 3))
-#     k3 = system(matrix, y_vec + (k2 * step * 2 / 3))
-    
-#     x_next = x + step
-#     y_vec_next = y_vec + step * ((1 / 4) * k1 + (3 / 4) * k3)
-    
-#     return x_next, y_vec_next
-    
 
 def RK3(x, y, u, step) -> np.array:
     k1_y, k1_u = func(x, y, u)
@@ -54,13 +40,6 @@ def RK3(x, y, u, step) -> np.array:
     
     return np.array([x_next, y_next, u_next])
 
-# def error(x, y, u, step) -> float:
-#     whole_step = RK3(x, y, u, step)
-#     half_step1 = RK3(x, y, u, step / 2)
-#     half_step2 = RK3(*half_step1, step / 2)
-    
-#     return sqrt((whole_step[1] - half_step2[1]) ^ 2
-#                  + (whole_step[2] - half_step2[2]) ^ 2)
     
 def main() -> None:
     

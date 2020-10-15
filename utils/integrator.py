@@ -17,16 +17,17 @@ class integrator:
         self._step = step
         self._mul_count = 0
         self._div_count = 0
+        self.max_error = 0
 
 
-    def system(self, y_vec: np.array) -> np.matrix:
+    def _system(self, y_vec: np.array) -> np.matrix:
         return y_vec.dot(self._matrix)
 
 
-    def RK3(self, x: float, y_vec: np.array, step: float) -> dict:
-        k1 = self.system(y_vec)
-        k2 = self.system(y_vec + (k1 * step / 3))
-        k3 = self.system(y_vec + (k2 * step * 2 / 3))
+    def _RK3(self, x: float, y_vec: np.array, step: float) -> dict:
+        k1 = self._system(y_vec)
+        k2 = self._system(y_vec + (k1 * step / 3))
+        k3 = self._system(y_vec + (k2 * step * 2 / 3))
 
         x_next = x + step
         y_vec_next = y_vec + step * ((1 / 4) * k1 + (3 / 4) * k3)
@@ -40,9 +41,11 @@ class integrator:
         while True:
             iter_counter += 1
 
-            whole_step  = self.RK3(x, y_vec, self._step)
-            half_step_1 = self.RK3(x, y_vec, self._step / 2.)
-            half_step_2 = self.RK3(half_step_1['x'],
+            old_step = self._step
+
+            whole_step  = self._RK3(x, y_vec, self._step)
+            half_step_1 = self._RK3(x, y_vec, self._step / 2.)
+            half_step_2 = self._RK3(half_step_1['x'],
                                    half_step_1['y'],
                                    self._step / 2.)
 
@@ -61,14 +64,13 @@ class integrator:
                     self._step *= 2.
                     self._mul_count += 1
 
+                if error > self.max_error:
+                    self.max_error = error
+
                 break
 
         return {'x': x, 'y': y_vec, 'y2': half_step_2['y'],
-                'error': error, 'step': self._step,
+                'error': error, 'step': old_step,
                 'mul_count': self._mul_count,
-                'div_count': self._div_count,
+                'div_count': self._div_count
                 }
-
-
-
-

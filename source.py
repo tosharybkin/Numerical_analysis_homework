@@ -68,8 +68,9 @@ def main() -> None:
         df = pd.DataFrame(points_info)
         print(df.to_string())
 
-    plot(extract_points(points_info), k, c, m, save_flag)
+    print(f"Max local error: {int_inst.max_error}")
 
+    plot(extract_points(points_info), k, c, m, save_flag)
 
 
 if __name__ == "__main__":

@@ -8,9 +8,12 @@ def main():
         subprocess.run(
             [
                 "python",
-                "Task_11.py",
+                "source.py",
+                "--save",
+                "--k",
                 f"{k}",
-                f"{c}",
+                "--c",
+                f"{c}"
             ]
         )
 

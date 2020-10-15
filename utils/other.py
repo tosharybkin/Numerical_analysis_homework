@@ -38,6 +38,10 @@ def create_parser() -> argparse.ArgumentParser:
         '--save', action='store_true'
     )
 
+    parser.add_argument(
+        '--print', action='store_true'
+    )
+
     return parser
 
 def extract_points(points_info: dict) -> dict:

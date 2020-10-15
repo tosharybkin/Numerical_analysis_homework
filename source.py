@@ -1,5 +1,5 @@
-from matplotlib.pyplot import savefig
 import numpy as np
+import pandas as pd
 
 # Our modules
 from utils.integrator import integrator
@@ -64,7 +64,12 @@ def main() -> None:
         if x >= x_max:
             break
 
+    if args.print:
+        df = pd.DataFrame(points_info)
+        print(df.to_string())
+
     plot(extract_points(points_info), k, c, m, save_flag)
+
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import sys
 from math import sqrt
 import numpy as np
 from matplotlib import pyplot as plt
@@ -52,8 +53,8 @@ def main() -> None:
     #! User defined constants
     step = 1
     eps = 0.0001
-    K = 3
-    C = 0.15
+    K = float(sys.argv[1])
+    C = float(sys.argv[2])
 
     x, y, u = x0, y0, u0
     xs = np.array([])
@@ -92,7 +93,8 @@ def main() -> None:
 
     fig, axs = plt.subplots(2, 1, figsize=(8, 8))
     plt.subplots_adjust(hspace=0.3)
-    fig.canvas.set_window_title('Task 11')
+    title = f"Task 11:_K_=_{K},_C_=_{C}"
+    fig.canvas.set_window_title(title)
 
     axs[0].plot(xs, ys, label = "y(x)")
     axs[0].plot(xs, us, label = "u(x)")
@@ -105,7 +107,9 @@ def main() -> None:
     axs[1].set_xlabel("y")
     axs[1].set_ylabel("u(y)")
 
-    plt.show()
+    save_path = r"img/"
+    plt.savefig(save_path + f"K-{K:.1f}_C-{C:.1f}" + ".png")
+    #plt.show()
 
 
 if __name__ == "__main__":

@@ -1,10 +1,6 @@
-from math import sqrt
 import numpy as np
-from matplotlib import pyplot as plt
-from numpy import matrixlib
 
-
-class integrator:
+class Integrator:
 
     def __init__(self, matrix: np.matrix,
                  max_iters: float,
@@ -18,6 +14,7 @@ class integrator:
         self._mul_count = 0
         self._div_count = 0
         self.max_error = 0
+        self.first_point_flag = True
 
 
     def _system(self, y_vec: np.array) -> np.matrix:
@@ -36,6 +33,16 @@ class integrator:
 
 
     def next_point(self, x, y_vec) -> dict:
+
+        if(self.first_point_flag):
+            self.first_point_flag = False
+
+            return {'x': x, 'y': np.asmatrix(y_vec), 'y2': np.nan,
+                    'LEE': np.nan, 'step': np.nan,
+                    'mul_count': self._mul_count,
+                    'div_count': self._div_count
+                    }
+
         iter_counter = 0
 
         while True:
@@ -70,7 +77,7 @@ class integrator:
                 break
 
         return {'x': x, 'y': y_vec, 'y2': half_step_2['y'],
-                'error': error, 'step': old_step,
+                'LEE': error, 'step': old_step,
                 'mul_count': self._mul_count,
                 'div_count': self._div_count
                 }

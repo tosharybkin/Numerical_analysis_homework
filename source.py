@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 # Our modules
-from utils.integrator import integrator
+from utils.integrator import Integrator
 from utils.other import create_parser, extract_points, plot
 
 
@@ -52,11 +52,11 @@ def main() -> None:
         [-(k / m), -(c / m)]
     ], dtype=np.longdouble)
 
-    int_inst = integrator(A, max_iters, eps, step)
+    integrator = Integrator(A, max_iters, eps, step)
     points_info = []
 
     while True:
-        new_point_info = int_inst.next_point(x, y)
+        new_point_info = integrator.next_point(x, y)
         points_info.append(new_point_info)
         x = new_point_info['x']
         y = new_point_info['y']
@@ -68,7 +68,7 @@ def main() -> None:
         df = pd.DataFrame(points_info)
         print(df.to_string())
 
-    print(f"Max local error: {int_inst.max_error}")
+    print(f"Max local error: {integrator.max_error}")
 
     plot(extract_points(points_info), k, c, m, save_flag)
 

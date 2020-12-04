@@ -1,9 +1,8 @@
 import numpy as np
-import pandas as pd
 
 # Our modules
-from utils.integrator import Integrator
-from utils.other import create_parser, extract_points, plot
+from numerical_analysis_homework.utils.integrator import Integrator
+from numerical_analysis_homework.utils.other import extract_points
 
 
 def main() -> None:
@@ -24,35 +23,12 @@ def main() -> None:
     x = 0
     y = np.array([10, 0], dtype=np.longdouble)
 
-    # Program defaults
-    save_flag = False
-
-    parser = create_parser()
-    args = parser.parse_args()
-
-    if args.step:
-        step = args.step
-    if args.m:
-        m = args.m
-    if args.k:
-        k = args.k
-    if args.c:
-        c = args.c
-    if args.eps:
-        eps = args.eps
-    if args.max_iters:
-        max_iters = args.max_iters
-    if args.x_max:
-        x_max = args.x_max
-    if args.save:
-        save_flag = True
-
     A = np.matrix([
         [      0.,       1.],
         [-(k / m), -(c / m)]
     ], dtype=np.longdouble)
 
-    integrator = Integrator(A, max_iters, eps, step)
+    integrator = Integrator(A, eps, step)
     points_info = []
 
     while True:
@@ -64,13 +40,8 @@ def main() -> None:
         if x >= x_max:
             break
 
-    if args.print:
-        df = pd.DataFrame(points_info)
-        print(df.to_string())
-
     print(f"Max local error: {integrator.max_error}")
 
-    plot(extract_points(points_info), k, c, m, save_flag)
 
 
 if __name__ == "__main__":

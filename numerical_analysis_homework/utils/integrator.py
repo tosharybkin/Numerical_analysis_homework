@@ -3,13 +3,11 @@ import numpy as np
 class Integrator:
 
     def __init__(self, matrix: np.matrix,
-                 max_iters: float,
                  eps: float,
                  step: float) -> None:
 
         self._matrix = matrix
         self._eps = eps
-        self._max_iters = max_iters
         self._step = step
         self._mul_count = 0
         self._div_count = 0
@@ -43,11 +41,7 @@ class Integrator:
                     'div_count': self._div_count
                     }
 
-        iter_counter = 0
-
         while True:
-            iter_counter += 1
-
             old_step = self._step
 
             whole_step  = self._RK3(x, y_vec, self._step)
@@ -59,7 +53,7 @@ class Integrator:
             delta = whole_step['y'] - half_step_2['y']
             error = np.linalg.norm(delta)
 
-            if error > self._eps and iter_counter <= self._max_iters + 1:
+            if error > self._eps:
                 self._step /= 2.
                 self._div_count += 1
 

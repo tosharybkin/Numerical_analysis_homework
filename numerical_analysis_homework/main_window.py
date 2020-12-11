@@ -2,7 +2,7 @@ import sys, os
 import numpy as np
 from PyQt5.QtCore import Qt
 from PyQt5 import QtGui, QtWidgets, QtCore, uic
-from PyQt5.QtGui import QPalette, QColor
+from PyQt5.QtGui import QPalette, QColor, QPixmap
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from utils.integrator import Integrator
 from utils.other import extract_points
@@ -20,12 +20,15 @@ class Main_window(QtWidgets.QMainWindow):
             self,
         )
         self.addToolBar(NavigationToolbar(self.plot.canvas, self))
-        # self.setWindowIcon(QtGui.QIcon(
-        #     os.path.abspath(os.path.join(script_dir, os.pardir))  # Parent directory
-        #     + os.path.sep
-        #     + "resources"
-        #     + os.path.sep
-        #     + "icon.png"))
+        pixmap = QPixmap(
+            os.path.abspath(os.path.join(script_dir, os.pardir))  # Parent directory
+            + os.path.sep
+            + "resource"
+            + os.path.sep
+            + "task.png"
+        )
+        self.task_text.setPixmap(pixmap)
+        self.task_text.setMask(pixmap.mask())
 
         self.plot_btn.clicked.connect(self.on_plot_btn_click)
 
